@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:22:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/02 11:13:19 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/03 19:16:25 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,41 +155,57 @@ void get_p(struct point *p, game game)
 	}
 }
 
+void search_path(game game, int count)
+{
+	int x = 0;
+	int y = 0;
+	game.map[x][y] = '1';
+}
+
+void ffa(game game, int x, int y)
+{
+	if (game.map[x][y] == '1' || game.map[x][y] == 'E' || game.map[x][y] == 'C')
+		return;
+	else
+		game.map[x][y] = '1';
+	ffa(game, x, y + 1);
+	ffa(game, x - 1, y);
+	ffa(game, x, y - 1);
+	ffa(game, x + 1, y);
+}
+
 int	valid_path(game game)
 {
 	struct point p;
 	int count;
-
+	int c;
+	
 	get_p(&p, game);
 	count = get_count_c(game);
-	// printf("%d\n", count);
-	if (game.map[p.x][p.y + 1] != '1')
-	{
-		valid_path(game);
-	}
-	if (game.map[p.x + 1][p.y] != '1')
-	{
-		valid_path(game);
-	}
-	if (game.map[p.x][p.y - 1] != '1')
-	{
-		valid_path(game);
-	}
-	if (game.map[p.x - 1][p.y] != '1')
-	{
-		valid_path(game);
-	}
-	// 				if (game.map[p.x][p.y] == 'E')
-	// 					return (1);
-	// 			}
-	// 		}
-	// 	}
-	// }
-	// printf("test");
-	// printf("i = %d\nj = %d\n", p.x, p.y);
-	// if (game.map[p.x][p.y] == 'E')
-	// 	return (1);
+	printf("collectibale count : %d\n", count);
+	printf("point index : %d,%d\n", p.x, p.y);
+	ffa(game, p.x, p.y);
+	// game.map[p.x][p.y] = '1';
+	// game.map[p.x][p.y] = '1';
+	// if (game.map[p.x][p.y] == 'E' || game.map[p.x][p.y] == 'C')
+	// 	c++;
+	// else if (game.map[p.x][p.y + 1] != '1')
+	// 	valid_path(game);
+	// // else
+	// // 	p.y--;
+	// else if (game.map[p.x + 1][p.y] != '1')
+	// 	valid_path(game);
+	// // else
+	// // 	p.x--;
+	// else if (game.map[p.x][p.y - 1] != '1')
+	// 	valid_path(game);
+	// // else
+	// // 	p.y++;
+	// else if (game.map[p.x - 1][p.y] != '1')
+	// 	valid_path(game);
+	// else if ()
 	// else
+	// 	p.x++;
 	return (0);
 }
 
@@ -204,11 +220,11 @@ int	main(int ac, char **av)
 	fd = open(av[1], O_RDONLY);
 	so_long.map = read_map(fd);
 	j = 0;
-	while (so_long.map[j])
-		printf("%s\n", so_long.map[j++]);
 	// printf("!!%d!!\n", map_checker_2(so_long));
 	// map_checker_2(so_long);
 	valid_path(so_long);
+	while (so_long.map[j])
+		printf("%s\n", so_long.map[j++]);
 	// printf("%d\n", valid_path(so_long));
 	// printf("??%d??\n", get_count_c(so_long));
 	if (map_checker_0(so_long) == 0 || map_checker_1(so_long) == 0 || map_checker_2(so_long) == 0)
