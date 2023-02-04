@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/01 22:41:35 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/04 19:40:09 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 typedef struct	game
 {
 	char **map;
+	char **copy_map;
 }				game;
 
 struct com
@@ -26,6 +27,12 @@ struct com
 	int i;
 	int	x;
 	int	y;
+};
+
+struct point
+{
+	int x;
+	int y;	
 };
 
 #include <stdio.h>
@@ -39,5 +46,6 @@ struct com
 int map_checker_0(game game);
 int	map_checker_1(game game);
 int	map_checker_2(game game);
+int	valid_path(game game);
 
 #endif
