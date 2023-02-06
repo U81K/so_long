@@ -6,12 +6,13 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:22:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/04 19:42:02 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/06 10:39:45 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
 
+//ft_split
 static int	word_count(char *s, char c)
 {
 	int	i;
@@ -104,8 +105,6 @@ char	**read_map(int fd)
 	return (res);
 }
 
-
-
 int	main(int ac, char **av)
 {
 	game so_long;
@@ -123,5 +122,27 @@ int	main(int ac, char **av)
 		exit(0);
 	printf("-----S----");
 	close(fd);
+	/////
+	
+	void *mlx_ptr;
+	void *win_ptr;
+	
+	mlx_ptr = mlx_init();
+	win_ptr = mlx_new_window(mlx_ptr, 34*50, 6*50, "mlx 42");
+	if (win_ptr == NULL)
+	{
+		free(win_ptr);
+		return (1);
+	}
+	
+	// // mlx_key_hook(win_ptr, deal_key, (void *)0);
+	// // while(1)
+	// // 	;
+	// // mlx_destroy_window(mlx_ptr, win_ptr);
+	// // mlx_destroy_display();
+	mlx_loop(mlx_ptr);
+	free(mlx_ptr);
+	
+	/////
 	return (0);
 }

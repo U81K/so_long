@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 19:38:27 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/04 19:39:49 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/06 10:31:14 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char **copy_map(game game)
 	i = 0;
 	while (game.map[i])
 	{
-		copy_map[i] = strdup(game.map[i]);
+		copy_map[i] = ft_strdup(game.map[i]);
 		i++;
 	}
 	copy_map[i] = NULL;
@@ -75,11 +75,13 @@ void flood_fill(char **new_map, int x, int y)
 	if (new_map[x][y] == '1')
 		return;
 	else
+	{
 		new_map[x][y] = '1';
-	flood_fill(new_map, x, y + 1);
-	flood_fill(new_map, x - 1, y);
-	flood_fill(new_map, x, y - 1);
-	flood_fill(new_map, x + 1, y);
+		flood_fill(new_map, x, y + 1);
+		flood_fill(new_map, x - 1, y);
+		flood_fill(new_map, x, y - 1);
+		flood_fill(new_map, x + 1, y);
+	}
 }
 
 int	valid_path(game game)
