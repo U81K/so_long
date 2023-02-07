@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/06 10:37:23 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/06 12:36:52 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ typedef struct	game
 {
 	char **map;
 	char **copy_map;
+	int	x;
+	int y;
 }				game;
 
 struct com
