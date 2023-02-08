@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:22:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/07 17:43:39 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/08 19:26:31 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,28 +113,26 @@ typedef struct map_info
 	int p_y;
 }				info;
 
-void	game_info(game game, info *map)
+void	game_info(t_game *game)
 {
-	// int x;
-	// int y;
-	
-	map->y = 0;
-	while (game.map[map->y])
-		map->y++;
-	map->x = ft_strlen(game.map[0]);
 	int x;
 	int y;
 
+	game->map_y = 0;
+	while (game->map[game->map_y])
+		game->map_y++;
+	game->map_x = ft_strlen(game->map[0]);
+
 	x = 0;
-	while(game.map[x])
+	while(game->map[x])
 	{
 		y = 0;
-		while (game.map[x][y])
+		while (game->map[x][y])
 		{
-			if (game.map[x][y] == 'P')
+			if (game->map[x][y] == 'P')
 			{
-				map->p_x = x;
-				map->p_y = y;
+				game->p_x = y;
+				game->p_y = x;
 			}
 			y++;
 		}
@@ -142,110 +140,182 @@ void	game_info(game game, info *map)
 	}
 }
 
-void player_movement(int k, game game, info data)
+// void player_movement(int k, game game)
+// {
+// 	int x;
+// 	int y;
+	
+// 	y = data.p_x;
+// 	x = data.p_y;
+// 	if (k == 2)
+// 	{
+// 		printf("---x = %d---\n", data.p_x);
+// 		printf("---y = %d---\n", data.p_y);
+// 		// mlx_put_image_to_window(mlx_ptr, win_ptr, free_s, x*50, y*50);
+// 		// mlx_put_image_to_window(mlx_ptr, win_ptr, free_s, x++*50, y*50);
+// 	}
+// }
+
+// void free_space(t_game *m)
+// {
+// 	mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->free_s, m->p_x*50, m->p_y*50);
+// }
+
+// void	move_right(t_game *m)
+// {
+// 	// int x;
+// 	// int y;
+
+// 	// x = m.p_x;
+// 	// y = m.p_y;
+// 	// printf("x = %d ; y = %d\n", m->p_x, m->p_y);
+	
+// 	free_space(m);
+// 	mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->player, (m->p_x++)*50, m->p_y*50);
+// 	// move_right(m);
+// 	// mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->free_s, m->p_x*50, m->p_y*50);
+// 	return;
+// }
+
+void reload(t_game *m)
 {
 	int x;
 	int y;
-	
-	y = data.p_x;
-	x = data.p_y;
-	if (k == 2)
-	{
-		printf("---x = %d---\n", data.p_x);
-		printf("---y = %d---\n", data.p_y);
-		// mlx_put_image_to_window(mlx_ptr, win_ptr, free_s, x*50, y*50);
-		// mlx_put_image_to_window(mlx_ptr, win_ptr, free_s, x++*50, y*50);
-	}
-}
-
-int key_dzb(int k, game *game)
-{
-	info data;
-	
-	game_info(*game, &data);
-	if (k == 2 || k == 1 || k == 0 || k == 13)
-		player_movement(k, *game, data);
-	return (0);
-}
-
-
-int	main(int ac, char **av)
-{
-	game so_long;
-	info map;
-	int	fd;
-
-	if (ac != 2)
-		return (0);
-	fd = open(av[1], O_RDONLY);
-	so_long.map = read_map(fd);
-	// int j;
-	// j = 0;
-	// while (so_long.map[j])
-	// 	printf("%s\n", so_long.map[j++]);
-	if (map_checker_0(so_long) == 0 || map_checker_1(so_long) == 0 || map_checker_2(so_long) == 0 || valid_path(so_long) == 0)
-		exit(1);
-	// else
-	// 	printf("Success");
-	game_info(so_long, &map);
-	close(fd);
-	/////
-	
-	void *mlx_ptr;
-	void *win_ptr;
-	void *wall;
-	void *player;
-	void *free_s;
-	void *door;
-	void *coin;
-	char *wall_path = "./textures/wall.xpm";
-	char *player_path = "./textures/player.xpm";
-	char *free_path = "./textures/free.xpm";
-	char *door_path = "./textures/door.xpm";
-	char *coin_path = "./textures/coin.xpm";
-	int img_w;
-	int img_h;
-	
-	// img_w = 32;
-	// img_h = 32;
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, map.x*50, map.y*50, "SOMNIUM");
-	if (win_ptr == NULL)
-	{
-		free(win_ptr);
-		return (1);
-	}
-	wall = mlx_xpm_file_to_image(mlx_ptr, wall_path, &img_w, &img_h);
-	player = mlx_xpm_file_to_image(mlx_ptr, player_path, &img_w, &img_h);
-	free_s = mlx_xpm_file_to_image(mlx_ptr, free_path, &img_w, &img_h);
-	door = mlx_xpm_file_to_image(mlx_ptr, door_path, &img_w, &img_h);
-	coin = mlx_xpm_file_to_image(mlx_ptr, coin_path, &img_w, &img_h);
-	int x;
-	int y;
-	
 	y = 0;
-	while (so_long.map[y])
+	while (m->map[y])
 	{
 		x = 0;
-		while (so_long.map[y][x])
+		while (m->map[y][x])
 		{
-			if (so_long.map[y][x] == '1')
-				mlx_put_image_to_window(mlx_ptr, win_ptr, wall, x*50, y*50);
+			if (m->map[y][x] == '1')
+				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->wall, x*50, y*50);
 			else
-				mlx_put_image_to_window(mlx_ptr, win_ptr, free_s, x*50, y*50);
-			if (so_long.map[y][x] == 'C')
-				mlx_put_image_to_window(mlx_ptr, win_ptr, coin, x*50, y*50); 
-			else if (so_long.map[y][x] == 'E')
-				mlx_put_image_to_window(mlx_ptr, win_ptr, door, x*50, y*50);
-			else if (so_long.map[y][x] == 'P')
-				mlx_put_image_to_window(mlx_ptr, win_ptr, player, x*50, y*50);
+				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->free_s, x*50, y*50);
+			if (m->map[y][x] == 'C')
+				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->coin, x*50, y*50); 
+			else if (m->map[y][x] == 'E')
+				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->door, x*50, y*50);
+			else if (m->map[y][x] == 'P')
+				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->player, x*50, y*50);
 			x++;
 		}
 		y++;
 	}
+}
+
+// return 1 if there is a wall
+int check_if_wall(int k, t_game *m)
+{
+	if (k == 2)
+	{
+		if (m->map[m->p_y][m->p_x + 1] == '1')
+			return (1);
+	}
+	if (k == 0)
+	{
+		if (m->map[m->p_y][m->p_x - 1] == '1')
+			return (1);
+	}
+	if (k == 1)
+	{
+		if (m->map[m->p_y + 1][m->p_x] == '1')
+			return (1);
+	}
+	if (k == 13)
+	{
+		if (m->map[m->p_y - 1][m->p_x] == '1')
+			return (1);
+	}
+	return (0);
+}
+
+int key_dzb(int k, t_game *m)
+{	
+	m->mouve_c = 0;
+	if (check_if_wall(k, m) == 0 && (k == 2 || k == 0 || k == 1 || k == 13))
+	{
+		// printf("%d\n", m->mouve_c += 1);
+		m->map[m->p_y][m->p_x] = '0';
+		if (k == 2)
+			m->p_x += 1;
+		else if (k == 0)
+			m->p_x -= 1;
+		else if (k == 1)
+			m->p_y += 1;
+		else if (k == 13)
+			m->p_y -= 1;
+	}
+	m->map[m->p_y][m->p_x] = 'P';
+	reload(m);
+	return (0);
+}
+
+int	main(int ac, char **av)
+{
+	t_game m;
+
+	if (ac != 2)
+		return (0);
+	m.fd = open(av[1], O_RDONLY);
+	m.map = read_map(m.fd);
+	// int j;
+	// j = 0;
+	// while (m.map[j])
+	// 	printf("%s\n", m.map[j++]);
+	if (map_checker_0(m) == 0 || map_checker_1(m) == 0 || map_checker_2(m) == 0 || valid_path(m) == 0)
+		exit(1);
+	// else
+	// 	printf("Success");
+	game_info(&m);
+	close(m.fd);
+	
+	/////
+	
+	m.wall_path = "./textures/wall.xpm";
+	m.player_path = "./textures/player.xpm";
+	m.free_path = "./textures/free.xpm";
+	m.door_path = "./textures/door.xpm";
+	m.coin_path = "./textures/coin.xpm";
+	
+	m.mlx_ptr = mlx_init();
+	m.win_ptr = mlx_new_window(m.mlx_ptr, m.map_x*50, m.map_y*50, "SOMNIUM");
+	if (m.win_ptr == NULL)
+	{
+		free(m.win_ptr);
+		return (1);
+	}
+	m.wall = mlx_xpm_file_to_image(m.mlx_ptr, m.wall_path, &m.img_w, &m.img_h);
+	m.player = mlx_xpm_file_to_image(m.mlx_ptr, m.player_path, &m.img_w, &m.img_h);
+	m.free_s = mlx_xpm_file_to_image(m.mlx_ptr, m.free_path, &m.img_w, &m.img_h);
+	m.door = mlx_xpm_file_to_image(m.mlx_ptr, m.door_path, &m.img_w, &m.img_h);
+	m.coin = mlx_xpm_file_to_image(m.mlx_ptr, m.coin_path, &m.img_w, &m.img_h);
+	int x;
+	int y;
+	
+	reload(&m);
+	// y = 0;
+	// while (m.map[y])
+	// {
+	// 	x = 0;
+	// 	while (m.map[y][x])
+	// 	{
+	// 		if (m.map[y][x] == '1')
+	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.wall, x*50, y*50);
+	// 		else
+	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.free_s, x*50, y*50);
+	// 		if (m.map[y][x] == 'C')
+	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.coin, x*50, y*50); 
+	// 		else if (m.map[y][x] == 'E')
+	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.door, x*50, y*50);
+	// 		else if (m.map[y][x] == 'P')
+	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.player, x*50, y*50);
+	// 		x++;
+	// 	}
+	// 	y++;
+	// }
 	// int *key;
-	mlx_key_hook(win_ptr, key_dzb, &so_long);
-	mlx_loop(mlx_ptr);
+	mlx_key_hook(m.win_ptr, key_dzb, &m);
+	mlx_loop(m.mlx_ptr);
 	// free(mlx_ptr);
 	
 	/////

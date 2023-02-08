@@ -6,13 +6,13 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 19:38:27 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/06 10:31:14 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:26:08 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
 
-char **copy_map(game game)
+char **copy_map(t_game game)
 {
 	char **copy_map;
 	int	i;
@@ -34,7 +34,7 @@ char **copy_map(game game)
 	return (copy_map);
 }
 
-void get_p(struct point *p, char **map)
+void get_p(struct t_point *p, char **map)
 {
 	int	i;
 	int	j;
@@ -84,9 +84,9 @@ void flood_fill(char **new_map, int x, int y)
 	}
 }
 
-int	valid_path(game game)
+int	valid_path(t_game game)
 {
-	struct point p;
+	struct t_point p;
 	char **new_map;
 	
 	new_map = copy_map(game);

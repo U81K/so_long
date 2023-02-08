@@ -6,14 +6,14 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 19:00:17 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/01 22:39:20 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:26:55 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
 
 // check map sheep && equal lines
-int map_checker_0(game game)
+int map_checker_0(t_game game)
 {
 	int y;
 	int	i;
@@ -40,7 +40,7 @@ int map_checker_0(game game)
 	return (1);
 }
 
-void	map_info(struct com *d, struct game game)
+void	map_info(struct t_com *d, t_game game)
 {
 	d->C = 0;
 	d->E = 0;
@@ -54,9 +54,9 @@ void	map_info(struct com *d, struct game game)
 }
 
 // check map component
-int	map_checker_1(game game)
+int	map_checker_1(t_game game)
 {
-	struct com c;
+	struct t_com c;
 	int	j;
 	
 	map_info(&c, game);
@@ -81,10 +81,10 @@ int	map_checker_1(game game)
 }
 
 // check surrounding
-int	map_checker_2(game game)
+int	map_checker_2(t_game game)
 {
 	int	i;
-	struct com d;
+	struct t_com d;
 	
 	map_info(&d, game);
 	i = 0;
