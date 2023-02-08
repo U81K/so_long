@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:22:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/07 12:33:21 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:43:39 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,26 +109,65 @@ typedef struct map_info
 {
 	int x;
 	int y;
+	int p_x;
+	int p_y;
 }				info;
 
 void	game_info(game game, info *map)
 {
-	int x;
-	int y;
+	// int x;
+	// int y;
 	
 	map->y = 0;
 	while (game.map[map->y])
 		map->y++;
 	map->x = ft_strlen(game.map[0]);
+	int x;
+	int y;
+
+	x = 0;
+	while(game.map[x])
+	{
+		y = 0;
+		while (game.map[x][y])
+		{
+			if (game.map[x][y] == 'P')
+			{
+				map->p_x = x;
+				map->p_y = y;
+			}
+			y++;
+		}
+		x++;
+	}
 }
 
-int key_dzb(int k, void *par)
+void player_movement(int k, game game, info data)
 {
-	// ft_putchar('\n');
-	// ft_putnbr(k);
-	printf("%d\n", k);
-	return (k);
+	int x;
+	int y;
+	
+	y = data.p_x;
+	x = data.p_y;
+	if (k == 2)
+	{
+		printf("---x = %d---\n", data.p_x);
+		printf("---y = %d---\n", data.p_y);
+		// mlx_put_image_to_window(mlx_ptr, win_ptr, free_s, x*50, y*50);
+		// mlx_put_image_to_window(mlx_ptr, win_ptr, free_s, x++*50, y*50);
+	}
 }
+
+int key_dzb(int k, game *game)
+{
+	info data;
+	
+	game_info(*game, &data);
+	if (k == 2 || k == 1 || k == 0 || k == 13)
+		player_movement(k, *game, data);
+	return (0);
+}
+
 
 int	main(int ac, char **av)
 {
@@ -205,7 +244,7 @@ int	main(int ac, char **av)
 		y++;
 	}
 	// int *key;
-	mlx_key_hook(win_ptr, key_dzb, 0);
+	mlx_key_hook(win_ptr, key_dzb, &so_long);
 	mlx_loop(mlx_ptr);
 	// free(mlx_ptr);
 	
