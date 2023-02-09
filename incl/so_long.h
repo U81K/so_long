@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/08 19:22:41 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/09 14:56:43 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct	s_game
 	int p_x;
 	int p_y;
 	int mouve_c;
+	int col_count;
 }				t_game;
 
 struct t_com

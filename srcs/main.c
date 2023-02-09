@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:22:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/08 19:26:31 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:34:39 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,26 @@ void	game_info(t_game *game)
 	}
 }
 
+void	game_info_1(t_game *m)
+{
+	int x;
+	int y;
+	
+	m->col_count = 0;
+	y = 0;
+	while (m->map[y])
+	{
+		x = 0;
+		while (m->map[y][x])
+		{
+			if (m->map[y][x] == 'C')
+				m->col_count += 1;
+			x++;
+		}
+		y++;
+	}
+}
+
 // void player_movement(int k, game game)
 // {
 // 	int x;
@@ -177,7 +197,7 @@ void	game_info(t_game *game)
 // 	return;
 // }
 
-void reload(t_game *m)
+void map_rendering(t_game *m)
 {
 	int x;
 	int y;
@@ -229,12 +249,40 @@ int check_if_wall(int k, t_game *m)
 	return (0);
 }
 
-int key_dzb(int k, t_game *m)
-{	
-	m->mouve_c = 0;
-	if (check_if_wall(k, m) == 0 && (k == 2 || k == 0 || k == 1 || k == 13))
+int check_if_exit(int k, t_game *m)
+{
+	if (m->col_count != 0)
 	{
-		// printf("%d\n", m->mouve_c += 1);
+		if (k == 2)
+		{
+			if (m->map[m->p_y][m->p_x + 1] == 'E')
+				return (1);
+		}
+		if (k == 0)
+		{
+			if (m->map[m->p_y][m->p_x - 1] == 'E')
+				return (1);
+		}
+		if (k == 1)
+		{
+			if (m->map[m->p_y + 1][m->p_x] == 'E')
+				return (1);
+		}
+		if (k == 13)
+		{
+			if (m->map[m->p_y - 1][m->p_x] == 'E')
+				return (1);
+		}
+	}
+	return (0);
+}
+
+int key_dzb(int k, t_game *m)
+{
+	if (k == 53)
+		exit(0);
+	if (check_if_wall(k, m) == 0 && check_if_exit(k, m) == 0 && (k == 2 || k == 0 || k == 1 || k == 13))
+	{
 		m->map[m->p_y][m->p_x] = '0';
 		if (k == 2)
 			m->p_x += 1;
@@ -244,9 +292,18 @@ int key_dzb(int k, t_game *m)
 			m->p_y += 1;
 		else if (k == 13)
 			m->p_y -= 1;
+		m->mouve_c += 1;
+		printf("move : %d\n", m->mouve_c);
+	}
+	game_info_1(m);
+	if (m->map[m->p_y][m->p_x] == 'C')
+		m->col_count -= 1;
+	else if (m->map[m->p_y][m->p_x] == 'E' && m->col_count == 0){
+		printf("You Win\n");
+		exit(0);
 	}
 	m->map[m->p_y][m->p_x] = 'P';
-	reload(m);
+	map_rendering(m);
 	return (0);
 }
 
@@ -263,7 +320,10 @@ int	main(int ac, char **av)
 	// while (m.map[j])
 	// 	printf("%s\n", m.map[j++]);
 	if (map_checker_0(m) == 0 || map_checker_1(m) == 0 || map_checker_2(m) == 0 || valid_path(m) == 0)
+	{
+		printf("Map Error\n");
 		exit(1);
+	}
 	// else
 	// 	printf("Success");
 	game_info(&m);
@@ -289,10 +349,10 @@ int	main(int ac, char **av)
 	m.free_s = mlx_xpm_file_to_image(m.mlx_ptr, m.free_path, &m.img_w, &m.img_h);
 	m.door = mlx_xpm_file_to_image(m.mlx_ptr, m.door_path, &m.img_w, &m.img_h);
 	m.coin = mlx_xpm_file_to_image(m.mlx_ptr, m.coin_path, &m.img_w, &m.img_h);
-	int x;
-	int y;
+	// int x;
+	// int y;
 	
-	reload(&m);
+	map_rendering(&m);
 	// y = 0;
 	// while (m.map[y])
 	// {
@@ -314,7 +374,10 @@ int	main(int ac, char **av)
 	// 	y++;
 	// }
 	// int *key;
+	// int count_m;
+	
 	mlx_key_hook(m.win_ptr, key_dzb, &m);
+	// printf("%d\n", count_m);
 	mlx_loop(m.mlx_ptr);
 	// free(mlx_ptr);
 	
