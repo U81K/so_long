@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/09 14:56:43 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:15:52 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct	s_game
 	int p_y;
 	int mouve_c;
 	int col_count;
+	int e_x;
+	int e_y;
 }				t_game;
 
 struct t_com
@@ -68,10 +70,12 @@ struct t_point
 #include "../mlx/mlx.h"
 // #include "../libft/libft.h"
 
-int map_checker_0(t_game game);
-int	map_checker_1(t_game game);
-int	map_checker_2(t_game game);
-int	valid_path(t_game game);
+int		map_checker_0(t_game game);
+int		map_checker_1(t_game game);
+int		map_checker_2(t_game game);
+int		map_checker_3(t_game game);
+int		valid_path(t_game game);
 char	*ft_strdup(const char *s);
+void	free_map(char **map);
 
 #endif

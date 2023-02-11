@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 19:38:27 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/08 17:26:08 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/11 21:44:42 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,53 +47,163 @@ void get_p(struct t_point *p, char **map)
 		{
 			if (map[i][j] == 'P')
 			{
-				p->x = i;
-				p->y = j;
+				p->y = i;
+				p->x = j;
 			}
 			j++;
 		}
 		i++;
 	}
+	// printf("y = %d\nx = %d\n", p->y , p->x);
+	// printf("%c\n", map[p->y][p->x]);
 }
+
+// int check_c_e(char **new_map)
+// {
+// 	int i;
+// 	int y;
+// 	int x;
+// 	int e_count;
+	
+// 	e_count = 0;
+// 	y = 0;
+// 	while (new_map[y])
+// 	{
+// 		x = 0;
+// 		while (new_map[y][x])
+// 		{
+// 			if (new_map[y][x] == 'E')
+// 				e_count++;
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	i = 0;
+// 	while (new_map[i])
+// 	{
+// 		if (ft_strchr(new_map[i], 'C'))
+// 			return (1);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+
+// void flood_fill(char **new_map, int x, int y)
+// {
+// 	if (new_map[x][y] == '1' || new_map[x][y] == 'E')
+// 		return;
+// 	new_map[x][y] = '1';
+// 	flood_fill(new_map, x, y + 1);
+// 	flood_fill(new_map, x - 1, y);
+// 	flood_fill(new_map, x, y - 1);
+// 	flood_fill(new_map, x + 1, y);
+// }
 
 int check_c_e(char **new_map)
 {
 	int i;
-
+	int y;
+	int x;
+	// int e_count;
+	
+	// e_count = 0;
+	// y = 0;
+	// while (new_map[y])
+	// {
+	// 	x = 0;
+	// 	while (new_map[y][x])
+	// 	{
+	// 		if (new_map[y][x] == 'E')
+	// 			e_count++;
+	// 		x++;
+	// 	}
+	// 	y++;
+	// }
 	i = 0;
 	while (new_map[i])
 	{
-		if (ft_strchr(new_map[i], 'C') || ft_strchr(new_map[i], 'E'))
+		if (ft_strchr(new_map[i], 'C'))
 			return (1);
 		i++;
 	}
 	return (0);
 }
-
-void flood_fill(char **new_map, int x, int y)
+void flood_fill(char **new_map, int y, int x)
 {
-	if (new_map[x][y] == '1')
+	if (new_map[y][x] == '1' || new_map[y][x] == 'X' || new_map[y][x] == 'E')
 		return;
 	else
 	{
-		new_map[x][y] = '1';
-		flood_fill(new_map, x, y + 1);
-		flood_fill(new_map, x - 1, y);
-		flood_fill(new_map, x, y - 1);
-		flood_fill(new_map, x + 1, y);
+		new_map[y][x] = 'X';
+		flood_fill(new_map, y, x + 1);
+		flood_fill(new_map, y + 1, x);
+		flood_fill(new_map, y, x - 1);
+		flood_fill(new_map, y - 1, x);
 	}
+}
+
+void get_e(struct t_point *p, char **new_map)
+{
+	int y;
+	int	x;
+
+	y = 0;
+	while (new_map[y])
+	{
+		x = 0;
+		while (new_map[y][x])
+		{
+			if (new_map[y][x] == 'E')
+			{
+				p->y = y;
+				p->x = x;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+int check_e(struct t_point p_E, char **map)
+{
+	if (map[p_E.y][p_E.x + 1] == 'X' || map[p_E.y + 1][p_E.x] == 'X' || map[p_E.y][p_E.x - 1] == 'X' || map[p_E.y - 1][p_E.x] == 'X')
+		return(1);
+	return (0);
 }
 
 int	valid_path(t_game game)
 {
-	struct t_point p;
+	struct t_point p_P;
+	struct t_point p_E;
 	char **new_map;
 	
 	new_map = copy_map(game);
-	get_p(&p, new_map);
-	flood_fill(new_map, p.x, p.y);
-	if (check_c_e(new_map) == 0)
+	get_p(&p_P, new_map);
+	flood_fill(new_map, p_P.y, p_P.x);
+	get_e(&p_E, new_map);
+	printf("y = %d\nx = %d\n", p_E.y, p_E.x);
+	printf("%d\n", check_e(p_E, new_map));
+	// exit(0);
+	// int i;
+
+	// i = 0;
+	// while (new_map[i])
+	// {
+	// 	printf("%s\n", new_map[i]);
+	// 	i++;
+	// }
+	// exit(0);
+	if (check_e(p_E, new_map) == 1 && check_c_e(new_map) == 0)
+	{
+		free_map(new_map);
 		return (1);
+	}
 	else
+	{
+		free_map(new_map);
+		printf("Invalide path");
+		exit(1);
 		return (0);
+	}
 }

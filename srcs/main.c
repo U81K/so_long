@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:22:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/09 16:34:39 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/11 20:29:10 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ char	**ft_split(char const *s, char c)
 	return (res);
 }
 
-// read the map to a **ptr
 char	**read_map(int fd)
 {
 	char	*line;
@@ -100,8 +99,10 @@ char	**read_map(int fd)
 		if (!line)
 			break;
 		all = ft_strjoin(all, line);
+		free(line);
 	}
 	res = ft_split(all, '\n');
+	free(all);
 	return (res);
 }
 
@@ -277,6 +278,22 @@ int check_if_exit(int k, t_game *m)
 	return (0);
 }
 
+// void free_map(char **map)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (map[i])
+// 		i++;
+// 	i--;
+// 	while (map[i])
+// 	{
+// 		free(map[i]);
+// 		i--;
+// 	}
+// 	free(map);
+// }
+
 int key_dzb(int k, t_game *m)
 {
 	if (k == 53)
@@ -298,8 +315,10 @@ int key_dzb(int k, t_game *m)
 	game_info_1(m);
 	if (m->map[m->p_y][m->p_x] == 'C')
 		m->col_count -= 1;
-	else if (m->map[m->p_y][m->p_x] == 'E' && m->col_count == 0){
+	else if (m->map[m->p_y][m->p_x] == 'E' && m->col_count == 0)
+	{
 		printf("You Win\n");
+		// free_map(m->map);
 		exit(0);
 	}
 	m->map[m->p_y][m->p_x] = 'P';
@@ -307,30 +326,51 @@ int key_dzb(int k, t_game *m)
 	return (0);
 }
 
+int check_args(char *av)
+{
+	if (strstr(av, ".ber"))
+		return (1);
+	else
+		return (0);
+}
+
+// void close_callback(t_game *m)
+// {
+// 	mlx_destroy_window(m->mlx_ptr, m->win_ptr);
+// 	exit(0);
+// }
+
 int	main(int ac, char **av)
 {
 	t_game m;
 
 	if (ac != 2)
-		return (0);
-	m.fd = open(av[1], O_RDONLY);
+	{
+		printf("args error");
+		exit(1);
+	}
+	if (check_args(av[1]))
+		m.fd = open(av[1], O_RDONLY);
+	else
+	{
+		printf("invalide map file");
+		exit(1);
+	}
 	m.map = read_map(m.fd);
-	// int j;
-	// j = 0;
-	// while (m.map[j])
-	// 	printf("%s\n", m.map[j++]);
-	if (map_checker_0(m) == 0 || map_checker_1(m) == 0 || map_checker_2(m) == 0 || valid_path(m) == 0)
+	if (!m.map)
+	{
+		printf("no map found");
+		exit(1);
+	}
+	if (map_checker_0(m) == 0 || map_checker_1(m) == 0 || map_checker_2(m) == 0 || map_checker_3(m) == 0)
 	{
 		printf("Map Error\n");
 		exit(1);
 	}
-	// else
-	// 	printf("Success");
+	valid_path(m);
 	game_info(&m);
 	close(m.fd);
-	
-	/////
-	
+
 	m.wall_path = "./textures/wall.xpm";
 	m.player_path = "./textures/player.xpm";
 	m.free_path = "./textures/free.xpm";
@@ -339,48 +379,27 @@ int	main(int ac, char **av)
 	
 	m.mlx_ptr = mlx_init();
 	m.win_ptr = mlx_new_window(m.mlx_ptr, m.map_x*50, m.map_y*50, "SOMNIUM");
-	if (m.win_ptr == NULL)
-	{
-		free(m.win_ptr);
-		return (1);
-	}
+	// if (m.win_ptr == NULL)
+	// {
+	// 	free(m.win_ptr);
+	// 	return (1);
+	// }
 	m.wall = mlx_xpm_file_to_image(m.mlx_ptr, m.wall_path, &m.img_w, &m.img_h);
+	// if (m.wall == NULL)
+	// {
+	// }
+	// if (m.img_w != 50 || m.img_h != 50)
+	// {
+	// 	free(m.mlx_ptr);
+	// }
 	m.player = mlx_xpm_file_to_image(m.mlx_ptr, m.player_path, &m.img_w, &m.img_h);
 	m.free_s = mlx_xpm_file_to_image(m.mlx_ptr, m.free_path, &m.img_w, &m.img_h);
 	m.door = mlx_xpm_file_to_image(m.mlx_ptr, m.door_path, &m.img_w, &m.img_h);
 	m.coin = mlx_xpm_file_to_image(m.mlx_ptr, m.coin_path, &m.img_w, &m.img_h);
-	// int x;
-	// int y;
-	
 	map_rendering(&m);
-	// y = 0;
-	// while (m.map[y])
-	// {
-	// 	x = 0;
-	// 	while (m.map[y][x])
-	// 	{
-	// 		if (m.map[y][x] == '1')
-	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.wall, x*50, y*50);
-	// 		else
-	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.free_s, x*50, y*50);
-	// 		if (m.map[y][x] == 'C')
-	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.coin, x*50, y*50); 
-	// 		else if (m.map[y][x] == 'E')
-	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.door, x*50, y*50);
-	// 		else if (m.map[y][x] == 'P')
-	// 			mlx_put_image_to_window(m.mlx_ptr, m.win_ptr, m.player, x*50, y*50);
-	// 		x++;
-	// 	}
-	// 	y++;
-	// }
-	// int *key;
-	// int count_m;
-	
 	mlx_key_hook(m.win_ptr, key_dzb, &m);
-	// printf("%d\n", count_m);
+	// mlx_loop_hook(m.win_ptr, 17, 0, close_callback, &m);
 	mlx_loop(m.mlx_ptr);
-	// free(mlx_ptr);
-	
-	/////
+	// mlx_destroy_window(m.mlx_ptr, m.win_ptr);
 	return (0);
 }
