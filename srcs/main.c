@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:22:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/11 20:29:10 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:25:32 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,7 +318,6 @@ int key_dzb(int k, t_game *m)
 	else if (m->map[m->p_y][m->p_x] == 'E' && m->col_count == 0)
 	{
 		printf("You Win\n");
-		// free_map(m->map);
 		exit(0);
 	}
 	m->map[m->p_y][m->p_x] = 'P';
@@ -339,6 +338,12 @@ int check_args(char *av)
 // 	mlx_destroy_window(m->mlx_ptr, m->win_ptr);
 // 	exit(0);
 // }
+int	on_destroy(t_game *m)
+{
+	printf("window is destroyed");
+	mlx_destroy_window(m->mlx_ptr, m->win_ptr);
+	exit(0);
+}
 
 int	main(int ac, char **av)
 {
@@ -398,6 +403,8 @@ int	main(int ac, char **av)
 	m.coin = mlx_xpm_file_to_image(m.mlx_ptr, m.coin_path, &m.img_w, &m.img_h);
 	map_rendering(&m);
 	mlx_key_hook(m.win_ptr, key_dzb, &m);
+	mlx_hook(m.win_ptr, 17, 0, on_destroy, &m);
+	// mlx_key_hook(m.win_ptr, key_dzb, &m);
 	// mlx_loop_hook(m.win_ptr, 17, 0, close_callback, &m);
 	mlx_loop(m.mlx_ptr);
 	// mlx_destroy_window(m.mlx_ptr, m.win_ptr);
