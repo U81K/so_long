@@ -6,17 +6,17 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 19:38:27 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/12 17:14:10 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/13 18:30:28 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
 
-char **copy_map(t_game game)
+char	**copy_map(t_game game)
 {
-	char **copy_map;
-	int	i;
-	int	j;
+	char	**copy_map;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (game.map[i])
@@ -34,11 +34,11 @@ char **copy_map(t_game game)
 	return (copy_map);
 }
 
-void get_p(struct t_point *p, char **map)
+void	get_p(struct s_point *p, char **map)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
 	while (map[i])
 	{
@@ -56,9 +56,9 @@ void get_p(struct t_point *p, char **map)
 	}
 }
 
-int check_c_e(char **new_map)
+int	check_c_e(char **new_map)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (new_map[i])
@@ -70,10 +70,10 @@ int check_c_e(char **new_map)
 	return (0);
 }
 
-void flood_fill(char **new_map, int y, int x)
+void	flood_fill(char **new_map, int y, int x)
 {
 	if (new_map[y][x] == '1' || new_map[y][x] == 'X' || new_map[y][x] == 'E')
-		return;
+		return ;
 	else
 	{
 		new_map[y][x] = 'X';
@@ -84,9 +84,9 @@ void flood_fill(char **new_map, int y, int x)
 	}
 }
 
-void get_e(struct t_point *p, char **new_map)
+void	get_e(struct s_point *p, char **new_map)
 {
-	int y;
+	int	y;
 	int	x;
 
 	y = 0;
@@ -98,7 +98,7 @@ void get_e(struct t_point *p, char **new_map)
 			if (new_map[y][x] == 'E')
 			{
 				p->y = y;
-				p->x = x;	
+				p->x = x;
 			}
 			x++;
 		}
@@ -106,20 +106,20 @@ void get_e(struct t_point *p, char **new_map)
 	}
 }
 
-int check_e(struct t_point p_E, char **map)
+int	check_e(struct s_point p_E, char **map)
 {
-	if (map[p_E.y][p_E.x + 1] == 'X' || map[p_E.y + 1][p_E.x] == 'X' 
+	if (map[p_E.y][p_E.x + 1] == 'X' || map[p_E.y + 1][p_E.x] == 'X'
 		|| map[p_E.y][p_E.x - 1] == 'X' || map[p_E.y - 1][p_E.x] == 'X')
-		return(1);
+		return (1);
 	return (0);
 }
 
 int	valid_path(t_game game)
 {
-	struct t_point p_P;
-	struct t_point p_E;
-	char **new_map;
-	
+	struct s_point	p_P;
+	struct s_point	p_E;
+	char			**new_map;
+
 	new_map = copy_map(game);
 	get_p(&p_P, new_map);
 	flood_fill(new_map, p_P.y, p_P.x);

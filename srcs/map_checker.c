@@ -6,19 +6,19 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 19:00:17 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/11 15:29:10 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/13 18:38:18 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
 
-// check map sheep && equal lines
-int map_checker_0(t_game game)
+/* check map sheep && equal lines */
+int	map_checker_0(t_game game)
 {
-	int y;
+	int	y;
 	int	i;
-	int j;
-	int x;
+	int	j;
+	int	x;
 
 	x = 0;
 	y = ft_strlen(game.map[0]);
@@ -31,7 +31,7 @@ int map_checker_0(t_game game)
 	while (game.map[i])
 	{
 		j = 0;
-		while(game.map[i][j])
+		while (game.map[i][j])
 			j++;
 		if (j != y)
 			return (0);
@@ -40,11 +40,11 @@ int map_checker_0(t_game game)
 	return (1);
 }
 
-void	map_info(struct t_com *d, t_game game)
+void	map_info(struct s_com *d, t_game game)
 {
-	d->C = 0;
-	d->E = 0;
-	d->P = 0;
+	d->c = 0;
+	d->e = 0;
+	d->p = 0;
 	d->i = 0;
 	d->x = 0;
 	while (game.map[d->x])
@@ -53,12 +53,12 @@ void	map_info(struct t_com *d, t_game game)
 	d->y = ft_strlen(game.map[0]) - 1;
 }
 
-// check map component
+/* check map component */
 int	map_checker_1(t_game game)
 {
-	struct t_com c;
-	int	j;
-	
+	struct s_com	c;
+	int				j;
+
 	map_info(&c, game);
 	while (game.map[c.i])
 	{
@@ -66,26 +66,26 @@ int	map_checker_1(t_game game)
 		while (game.map[c.i][j])
 		{
 			if (game.map[c.i][j] == 'C')
-				c.C++;
+				c.c++;
 			if (game.map[c.i][j] == 'E')
-				c.E++;
+				c.e++;
 			if (game.map[c.i][j] == 'P')
-				c.P++;
+				c.p++;
 			j++;
 		}
 		c.i++;
 	}
-	if (c.C >= 1 && c.E == 1 && c.P == 1)
+	if (c.c >= 1 && c.e == 1 && c.p == 1)
 		return (1);
 	return (0);
 }
 
-// check surrounding
+/* check surrounding */
 int	map_checker_2(t_game game)
 {
-	int	i;
-	struct t_com d;
-	
+	int				i;
+	struct s_com	d;
+
 	map_info(&d, game);
 	i = 0;
 	while (game.map[i])
@@ -95,7 +95,7 @@ int	map_checker_2(t_game game)
 		i++;
 	}
 	i = 0;
-	while(game.map[0][i])
+	while (game.map[0][i])
 	{
 		if (game.map[0][i] != '1')
 			return (0);
@@ -111,7 +111,7 @@ int	map_checker_2(t_game game)
 	return (1);
 }
 
-int map_checker_3(t_game game)
+int	map_checker_3(t_game game)
 {
 	int	y;
 	int	x;
