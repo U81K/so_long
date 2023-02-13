@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:56:04 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 20:10:10 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/13 22:00:58 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	**copy_map(t_game game)
 {
 	char	**copy_map;
 	int		i;
-	int		j;
 
 	i = 0;
 	while (game.map[i])

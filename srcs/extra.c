@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:34:56 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 18:39:44 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/13 22:08:20 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	check_args(char *av)
 
 int	destroy_win(t_game *m)
 {
-	printf("window is destroyed");
 	mlx_destroy_window(m->mlx_ptr, m->win_ptr);
 	exit(0);
 }

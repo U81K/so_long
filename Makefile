@@ -6,16 +6,17 @@
 #    By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/13 17:35:32 by bgannoun          #+#    #+#              #
-#    Updated: 2023/02/13 19:57:40 by bgannoun         ###   ########.fr        #
+#    Updated: 2023/02/13 22:11:55 by bgannoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = so_long
+NAME	= so_long
+CC		=	gcc
+CFLAGS	=	-Wall -Wextra -Werror
+RM		=	rm -rf
+OBJ		=	$(SRC:.c=.o)
 
-%.o: %.c
-	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
-
-OBJ = srcs/main.c \
+SRC = srcs/main.c \
 	srcs/map_checker.c \
 	srcs/path_checker.c \
 	srcs/get_next_line.c \
@@ -23,20 +24,19 @@ OBJ = srcs/main.c \
 	srcs/extra.c \
 	srcs/ft_split.c \
 	srcs/read_map.c \
-	srcs/more_fun.c \
+	srcs/more_fun.c
 
 archives = archives/libmlx.a \
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(archives)
+	$(CC) $(CFLAGS) $(OBJ) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(archives)
 
 all: $(NAME)
 
-clean: 
-	rm -rf $(NAME)
+clean:
+	$(RM) $(OBJ)
 
-re: clean all
+fclean: clean
+	$(RM) $(NAME)
 
-# gcc main.c map_checker.c path_checker.c get_next_line.c get_next_line_utils.c 
-# ../archives/libft.a ../libmlx.a 
-# -Lmlx -lmlx -framework OpenGL -framework AppKit -o so_long
+re: fclean all
