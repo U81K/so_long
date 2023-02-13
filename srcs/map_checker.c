@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 19:00:17 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 18:38:18 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/13 19:27:30 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,9 @@ int	map_checker_2(t_game game)
 		i++;
 	}
 	i = 0;
-	while (game.map[0][i])
+	while (game.map[0][i] && game.map[d.x][i])
 	{
-		if (game.map[0][i] != '1')
-			return (0);
-		i++;
-	}
-	i = 0;
-	while (game.map[d.x][i])
-	{
-		if (game.map[d.x][i] != '1')
+		if (game.map[0][i] != '1' || game.map[d.x][i] != '1')
 			return (0);
 		i++;
 	}

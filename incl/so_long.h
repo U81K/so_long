@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 18:40:03 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:09:13 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,12 @@ int			destroy_win(t_game *m);
 int			check_if_wall(int k, t_game *m);
 int			check_if_exit(int k, t_game *m);
 char		*ft_strdup(const char *s);
+void		map_rendering(t_game *m);
+char		**read_map(int fd);
+char		**copy_map(t_game game);
+void		get_p(struct s_point *p, char **map);
+void		game_info(t_game *game);
+void		game_info_1(t_game *m);
+// int			key_dzb(int k, t_game *m);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:19:38 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 18:23:57 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/13 19:54:20 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,25 @@ char	**read_map(int fd)
 	return (res);
 }
 
+void	map_rendering_1(t_game *m, int y, int x)
+{
+	if (m->map[y][x] == '1')
+		mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->wall, x * 50,
+			y * 50);
+	else
+		mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->free_s, x
+			* 50, y * 50);
+	if (m->map[y][x] == 'C')
+		mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->coin, x * 50,
+			y * 50);
+	else if (m->map[y][x] == 'E')
+		mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->door, x * 50,
+			y * 50);
+	else if (m->map[y][x] == 'P')
+		mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->player,
+			x * 50, y * 50);
+}
+
 void	map_rendering(t_game *m)
 {
 	int	x;
@@ -42,21 +61,7 @@ void	map_rendering(t_game *m)
 		x = 0;
 		while (m->map[y][x])
 		{
-			if (m->map[y][x] == '1')
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->wall, x * 50,
-					y * 50);
-			else
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->free_s, x
-					* 50, y * 50);
-			if (m->map[y][x] == 'C')
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->coin, x * 50,
-					y * 50);
-			else if (m->map[y][x] == 'E')
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->door, x * 50,
-					y * 50);
-			else if (m->map[y][x] == 'P')
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->player, x
-					* 50, y * 50);
+			map_rendering_1(m, y, x);
 			x++;
 		}
 		y++;

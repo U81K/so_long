@@ -6,108 +6,11 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:22:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 18:24:37 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:09:29 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
-
-char	**read_map(int fd)
-{
-	char	*line;
-	char	**res;
-	char	*all;
-
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		all = ft_strjoin(all, line);
-		free(line);
-	}
-	res = ft_split(all, '\n');
-	free(all);
-	return (res);
-}
-
-void	game_info(t_game *game)
-{
-	int	x;
-	int	y;
-
-	game->map_y = 0;
-	while (game->map[game->map_y])
-		game->map_y++;
-	game->map_x = ft_strlen(game->map[0]);
-	x = 0;
-	while (game->map[x])
-	{
-		y = 0;
-		while (game->map[x][y])
-		{
-			if (game->map[x][y] == 'P')
-			{
-				game->p_x = y;
-				game->p_y = x;
-			}
-			y++;
-		}
-		x++;
-	}
-}
-
-void	game_info_1(t_game *m)
-{
-	int	x;
-	int	y;
-
-	m->col_count = 0;
-	y = 0;
-	while (m->map[y])
-	{
-		x = 0;
-		while (m->map[y][x])
-		{
-			if (m->map[y][x] == 'C')
-				m->col_count += 1;
-			x++;
-		}
-		y++;
-	}
-}
-
-void	map_rendering(t_game *m)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (m->map[y])
-	{
-		x = 0;
-		while (m->map[y][x])
-		{
-			if (m->map[y][x] == '1')
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->wall, x * 50,
-					y * 50);
-			else
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->free_s, x
-					* 50, y * 50);
-			if (m->map[y][x] == 'C')
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->coin, x * 50,
-					y * 50);
-			else if (m->map[y][x] == 'E')
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->door, x * 50,
-					y * 50);
-			else if (m->map[y][x] == 'P')
-				mlx_put_image_to_window(m->mlx_ptr, m->win_ptr, m->player, x
-					* 50, y * 50);
-			x++;
-		}
-		y++;
-	}
-}
 
 int	key_dzb(int k, t_game *m)
 {
@@ -190,6 +93,5 @@ int	main(int ac, char **av)
 	map_rendering(&m);
 	mlx_key_hook(m.win_ptr, key_dzb, &m);
 	mlx_hook(m.win_ptr, 17, 0, destroy_win, &m);
-	mlx_loop(m.mlx_ptr);
-	return (0);
+	return (mlx_loop(m.mlx_ptr), 0);
 }
