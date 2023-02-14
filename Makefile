@@ -6,7 +6,7 @@
 #    By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/13 17:35:32 by bgannoun          #+#    #+#              #
-#    Updated: 2023/02/13 22:11:55 by bgannoun         ###   ########.fr        #
+#    Updated: 2023/02/14 17:22:37 by bgannoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,17 +26,21 @@ SRC = srcs/main.c \
 	srcs/read_map.c \
 	srcs/more_fun.c
 
-archives = archives/libmlx.a \
+archives = ft_printf/libftprintf.a \
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(archives)
+	cd ft_printf && make
+	$(CC) $(CFLAGS) $(OBJ) -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(archives)
 
 all: $(NAME)
 
 clean:
+	cd ft_printf && make clean
 	$(RM) $(OBJ)
 
 fclean: clean
+	cd ft_printf && make fclean
 	$(RM) $(NAME)
 
 re: fclean all
+	cd ft_printf && make re

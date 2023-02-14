@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:22:15 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 21:57:56 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/14 17:14:02 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	key_1(t_game *m)
 		m->col_count -= 1;
 	else if (m->map[m->p_y][m->p_x] == 'E' && m->col_count == 0)
 	{
-		printf("You Win\n");
+		ft_printf("You Win\n");
 		exit(0);
 	}
 	m->map[m->p_y][m->p_x] = 'P';
@@ -41,7 +41,7 @@ int	key(int k, t_game *m)
 		else if (k == 13)
 			m->p_y -= 1;
 		m->mouve_c += 1;
-		printf("move : %d\n", m->mouve_c);
+		ft_printf("move : %d\n", m->mouve_c);
 	}
 	game_info_1(m);
 	key_1(m);
@@ -53,26 +53,26 @@ void	main_1(t_game *m, int ac, char **av)
 {
 	if (ac != 2)
 	{
-		printf("args error");
+		ft_printf("args error");
 		exit(1);
 	}
 	if (check_args(av[1]))
 		m->fd = open(av[1], O_RDONLY);
 	else
 	{
-		printf("invalide map file");
+		ft_printf("invalide map file");
 		exit(1);
 	}
 	m->map = read_map(m->fd);
 	if (!m->map)
 	{
-		printf("no map found");
+		ft_printf("no map found");
 		exit(1);
 	}
 	if (map_checker_0(*m) == 0 || map_checker_1(*m) == 0
 		|| map_checker_2(*m) == 0 || map_checker_3(*m) == 0)
 	{
-		printf("Map Error\n");
+		ft_printf("Map Error\n");
 		exit(1);
 	}
 }

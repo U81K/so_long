@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 19:00:17 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 19:27:30 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/14 17:24:32 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	map_checker_3(t_game game)
 		x = 0;
 		while (game.map[y][x])
 		{
-			if (strchr("01PCE\n", game.map[y][x]) == 0)
+			if (ft_strchr("01PCE\n", game.map[y][x]) == 0)
 				return (0);
 			x++;
 		}

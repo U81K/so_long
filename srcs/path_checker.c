@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 19:38:27 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 21:18:34 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/14 17:03:27 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	valid_path(t_game game)
 	else
 	{
 		free_map(new_map);
-		printf("Invalide path");
+		ft_printf("Invalide path");
 		exit(1);
 		return (0);
 	}

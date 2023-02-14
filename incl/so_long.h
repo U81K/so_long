@@ -6,15 +6,16 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 22:08:41 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/14 17:20:51 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "../mlx/mlx.h"
+# include "mlx.h"
 # include "get_next_line.h"
+# include "../ft_printf/ft_printf.h"
 # include <fcntl.h>
 # include <mlx.h>
 # include <stdio.h>
