@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:19 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/14 17:20:51 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:42:10 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ char		**copy_map(t_game game);
 void		get_p(struct s_point *p, char **map);
 void		game_info(t_game *game);
 void		game_info_1(t_game *m);
+void		exit_fun(void);
 
 #endif

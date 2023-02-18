@@ -6,7 +6,7 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:56:04 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 22:00:58 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:41:52 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,10 @@ void	game_info_1(t_game *m)
 		}
 		y++;
 	}
+}
+
+void	exit_fun(void)
+{
+	ft_printf("Error\n");
+	exit(1);
 }

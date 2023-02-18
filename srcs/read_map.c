@@ -6,26 +6,58 @@
 /*   By: bgannoun <bgannoun@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 22:19:38 by bgannoun          #+#    #+#             */
-/*   Updated: 2023/02/13 19:54:20 by bgannoun         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:03:26 by bgannoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incl/so_long.h"
+
+char	*ft_strstr(char *str, char *to_find)
+{
+	int	i;
+	int	j;
+
+	if (to_find[0] == '\0')
+		return (str);
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		while (str[i + j] == to_find[j])
+		{
+			if (to_find[j + 1] == '\0')
+				return (str + i);
+			else
+				j++;
+		}
+		i++;
+	}
+	return (NULL);
+}
 
 char	**read_map(int fd)
 {
 	char	*line;
 	char	**res;
 	char	*all;
+	int		i;
 
+	if (fd == -1)
+		exit_fun();
+	i = 0;
 	while (1)
 	{
 		line = get_next_line(fd);
+		if ((i == 0 && !line) || (i == 0 && line[0] == '\n'))
+			exit_fun();
 		if (!line)
 			break ;
 		all = ft_strjoin(all, line);
 		free(line);
+		i++;
 	}
+	if (ft_strstr(all, "\n\n"))
+		exit_fun();
 	res = ft_split(all, '\n');
 	free(all);
 	return (res);
